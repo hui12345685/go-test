@@ -58,6 +58,7 @@ func GenerateNatural(ctx context.Context, wg *sync.WaitGroup) chan int {
 				return
 			case ch <- i:
 			}
+			fmt.Printf("GenerateNatural: idx %v\n", i)
 		}
 	}()
 	return ch
@@ -76,7 +77,9 @@ func PrimeFilter(ctx context.Context, in <-chan int, prime int, wg *sync.WaitGro
 					return
 				case out <- i:
 				}
+				fmt.Printf("not zero:idx %v prime:%v -- ", i, prime)
 			}
+			fmt.Printf("Filter: idx %v\n", i)
 		}
 	}()
 	return out
@@ -91,10 +94,10 @@ func ContextTest2() {
 	ch := GenerateNatural(ctx, &wg) // 自然数序列: 2, 3, 4, ...
 	for i := 0; i < 30; i++ {
 		prime := <-ch // 新出现的素数
-		fmt.Printf("%v: %v\n", i+1, prime)
+		fmt.Printf("idx:%v, prime:%v\n", i+1, prime)
 		wg.Add(1)
+		// 每次循环启动一个协程
 		ch = PrimeFilter(ctx, ch, prime, &wg) // 基于新素数构造的过滤器
-
 	}
 
 	cancel()

@@ -105,7 +105,7 @@ func main() {
 	//GoRoutionsCacheTests()
 	//CgoTests()
 	//PublisherTests()
-	//ContextTests()
+	ContextTests()
 	//SvrQpsLimiteTests()
 	//VariableParameterTestS()
 	//InterfaceConvertTests()

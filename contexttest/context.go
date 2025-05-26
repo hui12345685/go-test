@@ -14,7 +14,7 @@ func worker(ctx context.Context, wg *sync.WaitGroup) error {
 		select {
 		default:
 			fmt.Println("hello")
-			time.Sleep(30 * time.Millisecond)
+			time.Sleep(70 * time.Millisecond)
 		case <-ctx.Done():
 			fmt.Printf("will exited, reason:%+v\n", ctx.Err())
 			return ctx.Err()
@@ -33,7 +33,7 @@ func ContextTest() {
 		wg.Add(1)
 		go worker(ctx, &wg)
 	}
-	//如果这个sleep设置的事件大于上面WithTimeout的事件，会先超时结束
+	//如果这个sleep设置的时间大于上面WithTimeout的时间，会先超时结束
 	//time.Sleep(100 * time.Millisecond)
 	time.Sleep(100 * time.Millisecond)
 
@@ -50,6 +50,8 @@ func ContextTest() {
 func GenerateNatural(ctx context.Context, wg *sync.WaitGroup) chan int {
 	ch := make(chan int)
 	go func() {
+		defer fmt.Printf("exit GenerateNatural goroutine,ch %+v\n", ch)
+		fmt.Printf("enter GenerateNatural goroutine,ch %+v\n", ch)
 		defer wg.Done()
 		defer close(ch)
 		for i := 2; ; i++ {
@@ -57,6 +59,7 @@ func GenerateNatural(ctx context.Context, wg *sync.WaitGroup) chan int {
 			case <-ctx.Done():
 				return
 			case ch <- i:
+				fmt.Printf("GenerateNatural write channel data:%d,ch %+v\n", i, ch)
 			}
 		}
 	}()
@@ -69,7 +72,10 @@ func PrimeFilter(ctx context.Context, in <-chan int, prime int, wg *sync.WaitGro
 	go func() {
 		defer wg.Done()
 		defer close(out)
+		defer fmt.Printf("exit PrimeFilter goroutine,prime:%d in %+v out %+v\n", prime, in, out)
+		fmt.Printf("enter PrimeFilter goroutine,in %+v,prime:%d out %+v\n", in, prime, out)
 		for i := range in {
+			fmt.Printf("PrimeFilter read channel data:%d,prime:%d in %v out %v\n", i, prime, in, out)
 			if i%prime != 0 {
 				select {
 				case <-ctx.Done():
@@ -78,6 +84,7 @@ func PrimeFilter(ctx context.Context, in <-chan int, prime int, wg *sync.WaitGro
 				}
 			}
 		}
+
 	}()
 	return out
 }
@@ -89,14 +96,16 @@ func ContextTest2() {
 	ctx, cancel := context.WithCancel(context.Background())
 	wg.Add(1)
 	ch := GenerateNatural(ctx, &wg) // 自然数序列: 2, 3, 4, ...
-	for i := 0; i < 30; i++ {
+	fmt.Printf("get GenerateNatural ch addr:%+v\n", ch)
+	for i := 0; i < 20; i++ {
 		prime := <-ch // 新出现的素数
-		fmt.Printf("%v: %v\n", i+1, prime)
+		fmt.Printf("main read channel data,%v: %v , ch addr:%+v\n", i+1, prime, ch)
 		wg.Add(1)
+		// PrimeFilter返回的ch是下一个协程的输入
 		ch = PrimeFilter(ctx, ch, prime, &wg) // 基于新素数构造的过滤器
-
 	}
 
 	cancel()
 	wg.Wait()
+	fmt.Println("\033[1;32;40m  \n end ContextTest2--------------------------------------- \033[0m")
 }

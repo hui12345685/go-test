@@ -41,7 +41,7 @@ func ChannelTests2() {
 func ClosureTests() {
 	closuretest.Test1()
 	closuretest.Test2()
-	closuretest.TestPage()
+	// closuretest.TestPage() // 网页打不开，测试时需要能打开的网络,能打开的网络可能关联的url非常多，可以单独测试
 }
 
 func GoRoutionsTests() {
@@ -52,8 +52,9 @@ func GoRoutionsTests() {
 }
 
 func GoRoutionsCacheTests() {
+	// url 网络无法访问，能访问的网络可以打开，或者修改为可以访问的url
 	//goroutionstest.CacheTest()
-	goroutionstest.CacheTestV2()
+	//goroutionstest.CacheTestV2()
 }
 
 func PanicTests() {
@@ -61,8 +62,8 @@ func PanicTests() {
 }
 
 func SvrTests() {
-	//servertest.TestHttpSvrV1()
-	//servertest.TestTcpSvrV1()
+	servertest.TestHttpSvrV1()
+	servertest.TestTcpSvrV1()
 	servertest.TestTcpSvrV2()
 }
 
@@ -81,7 +82,7 @@ func ContextTests() {
 }
 
 func SvrQpsLimiteTests() {
-	//serverqpslimittest.QpsLimiteTest()
+	// 这个case需要结合客户端来使用，并且需要单独测试
 	serverqpslimittest.SvrQpsLimiteTest()
 }
 
@@ -96,17 +97,17 @@ func InterfaceConvertTests() {
 
 func main() {
 	ArrayTests()
-	//ChannelTests1()
-	//ChannelTests2()
-	//ClosureTests()
-	//PanicTests()
-	//GoRoutionsTests()
+	ChannelTests1()
+	ChannelTests2()
+	ClosureTests()
+	PanicTests()
+	GoRoutionsTests()
 	//SvrTests()
-	//GoRoutionsCacheTests()
-	//CgoTests()
-	//PublisherTests()
-	//ContextTests()
+	GoRoutionsCacheTests()
+	CgoTests()
+	PublisherTests()
+	ContextTests()
 	//SvrQpsLimiteTests()
-	//VariableParameterTestS()
-	//InterfaceConvertTests()
+	VariableParameterTestS()
+	InterfaceConvertTests()
 }

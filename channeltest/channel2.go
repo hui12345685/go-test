@@ -73,7 +73,7 @@ func TestCounterV2() {
 // select 下面只会有一个分支会执行
 // 如果多个case同时就绪时，select会随机地选择一个执行，这样来保证每一个channel都有平等的被select的机会
 func SelectTest() {
-	fmt.Println("\033[1;32;40m  \nstart TestCounterV2---------------------------------- \033[0m")
+	fmt.Println("\033[1;32;40m  \nstart SelectTest---------------------------------- \033[0m")
 	ch := make(chan int, 1) //缓冲区为1，会先写channel成功
 	for i := 0; i < 10; i++ {
 		select {

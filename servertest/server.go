@@ -20,8 +20,8 @@ func TestHttpSvrV1() {
 
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/count", counter)
-	//addr := "localhost:8000"
-	addr := "9.134.144.111:8000"
+	addr := "localhost:8000"
+	//addr := "127.0.0.1:8000"
 	log.Fatal(http.ListenAndServe(addr, nil))
 }
 

@@ -29,6 +29,17 @@ func ChangeValue(array []int) {
 	for i := 0; i < len(array); i++ {
 		array[i] = array[i] + 1
 	}
+
+	// 这种不会修改array的值
+	for _, val := range array {
+		val *= 2
+	}
+
+	// 这样range + 索引也可以修改 array的值
+	for index := range array {
+		// 使用索引来修改原始切片中的值
+		array[index] *= 2
+	}
 }
 
 // map是可以改变值的

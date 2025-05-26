@@ -31,7 +31,7 @@ func func2() {
 	num := 0
 	for i := 0; i < 5; i++ {
 		go func() {
-			//这里多协程就和多线程一样，各个协程里面看到num的值完全是不确定的(1-5之间)
+			//这里多协程就和多线程一样，各个协程里面看到num的值完全是不确定的(0-4之间)
 			fmt.Println(num)
 			num++
 		}()
@@ -172,7 +172,8 @@ func crawl(url string) []string {
 
 func TestPage() {
 	fmt.Println("\033[1;32;40m  \nstart closure.TestPage---------------------------------- \033[0m")
-	pages := []string{"https://golang.org"}
+	// pages := []string{"https://golang.org"}
+	pages := []string{"https://www.baidu.com"}
 	// Crawl the web breadth-first,
 	// starting from the command-line arguments.
 	breadthFirst(crawl, pages)

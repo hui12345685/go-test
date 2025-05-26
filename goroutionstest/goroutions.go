@@ -79,7 +79,8 @@ func dirents(dir string) []os.DirEntry {
 
 func DuTest() {
 	fmt.Println("\033[1;32;40m  \nstart DuTest---------------------------------- \033[0m")
-	roots := []string{"/data/home/yonghuiyu/work/qidian"}
+	//roots := []string{"/data/home/yonghuiyu/work/qidian"}
+	roots := []string{"E:\\work\\tencent\\qidian\\go", "E:\\work\\tencent\\qidian\\qd_cc"}
 
 	fmt.Printf("du %+v\n", roots)
 	// Traverse the file tree.
@@ -107,7 +108,8 @@ func printDiskUsage(nfiles, nbytes int64) {
 // ////////////////////////////////////////////////////////////////////////////////////////
 func DuTestV2() {
 	fmt.Println("\033[1;32;40m  \nstart DuTestV2---------------------------------- \033[0m")
-	roots := []string{"/data/home/yonghuiyu"}
+	//roots := []string{"/data/home/yonghuiyu"}
+	roots := []string{"E:\\work\\tencent\\qidian\\go", "E:\\work\\tencent\\qidian\\qd_cc"}
 	fmt.Printf("du %+v\n", roots)
 	// Traverse the file tree.
 	fileSizes := make(chan int64)

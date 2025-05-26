@@ -61,6 +61,7 @@ func GenerateNatural(ctx context.Context, wg *sync.WaitGroup) chan int {
 			case ch <- i:
 				fmt.Printf("GenerateNatural write channel data:%d,ch %+v\n", i, ch)
 			}
+			fmt.Printf("GenerateNatural: idx %v\n", i)
 		}
 	}()
 	return ch
@@ -82,7 +83,9 @@ func PrimeFilter(ctx context.Context, in <-chan int, prime int, wg *sync.WaitGro
 					return
 				case out <- i:
 				}
+				fmt.Printf("not zero:idx %v prime:%v -- ", i, prime)
 			}
+			fmt.Printf("Filter: idx %v\n", i)
 		}
 
 	}()
